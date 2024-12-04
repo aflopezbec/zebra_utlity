@@ -23,10 +23,14 @@ A flutter plugin for working with zebra printers
   s.static_framework = true
   
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
   s.preserve_paths = 'libZSDK_API.a', 'ExternalAccessory.framework', 'QuartzCore.framework'
    s.xcconfig = { 'OTHER_LDFLAGS' => '-framework ExternalAccessory -framework QuartzCore -lZSDK_API' }
-   s.vendored_libraries = 'libZSDK_API.a'
+  if ENV['PLATFORM_NAME'] == 'iphonesimulator'
+    s.vendored_libraries = 'libZSDK_API_simulator.a'
+  else
+    s.vendored_libraries = 'libZSDK_API.a'
+  end
    s.vendored_frameworks = 'ExternalAccessory.framework', 'QuartzCore.framework'
 end
