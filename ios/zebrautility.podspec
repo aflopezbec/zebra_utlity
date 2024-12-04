@@ -27,6 +27,11 @@ A flutter plugin for working with zebra printers
   s.swift_version = '5.0'
   s.preserve_paths = 'libZSDK_API.a', 'libZSDK_API_simulator.a', 'ExternalAccessory.framework', 'QuartzCore.framework'
   s.xcconfig = { 'OTHER_LDFLAGS' => '-framework ExternalAccessory -framework QuartzCore -lZSDK_API' }
-  s.vendored_libraries = 'libZSDK_API.a', 'libZSDK_API_simulator.a'
-  s.vendored_frameworks = 'ExternalAccessory.framework', 'QuartzCore.framework'
+  puts "PLATFORM_NAME: #{ENV['PLATFORM_NAME']}"
+  if ENV['PLATFORM_NAME'] == 'ios-arm64_x86_64-simulator'
+    s.vendored_libraries = 'libZSDK_API_simulator.a'
+  else
+    s.vendored_libraries = 'libZSDK_API.a'
+  end
+   s.vendored_frameworks = 'ExternalAccessory.framework', 'QuartzCore.framework'
 end
